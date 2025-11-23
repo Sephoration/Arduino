@@ -12,6 +12,12 @@
 enum AppID : uint8_t { 
     APP_HOME = 0,       // 主页应用
     APP_LIST,           // 列表页面
+    APP_WATERLEVEL,     // 水位检测
+    APP_JOYSTICK,       // 摇杆传感器
+    APP_SMOKE,          // 烟雾传感器
+    APP_ULTRASONIC,    // 超声波测距
+    APP_PHOTOSENSOR,
+
     // ！！！在这里添加新应用ID ！！！
     // APP_POMODORO,    // 示例
     APP_COUNT           // 应用总数（自动计算，不要修改）
@@ -31,6 +37,27 @@ void ListPage_init();
 void ListPage_loop(bool ok, bool back);
 void ListPage_draw(OLED_Display& oled);
 
+// 水位检测函数
+void WaterLevel_init();
+void WaterLevel_loop(bool ok, bool back);
+void WaterLevel_draw(OLED_Display& oled);
+
+void Joystick_init();
+void Joystick_loop(bool ok, bool back);
+void Joystick_draw(OLED_Display& oled);
+
+void SmokeSensor_init();
+void SmokeSensor_loop(bool ok, bool back);
+void SmokeSensor_draw(OLED_Display& oled);
+
+void Ultrasonic_init();
+void Ultrasonic_loop(bool ok, bool back);
+void Ultrasonic_draw(OLED_Display& oled);
+
+void Photosensor_init();
+void Photosensor_loop(bool ok, bool back);
+void Photosensor_draw(OLED_Display& oled);
+
 // ！！！在这里声明新应用的函数 ！！！
 // 格式：
 // void YourApp_init();
@@ -43,6 +70,11 @@ void ListPage_draw(OLED_Display& oled);
 #define APP_REGISTRY \
     APP_ENTRY(APP_HOME, F("Home"), HomePage_init, HomePage_loop, HomePage_draw) \
     APP_ENTRY(APP_LIST, F("List"), ListPage_init, ListPage_loop, ListPage_draw) \
+    APP_ENTRY(APP_WATERLEVEL, F("Water Level"), WaterLevel_init, WaterLevel_loop, WaterLevel_draw) \
+    APP_ENTRY(APP_JOYSTICK, F("Joystick"), Joystick_init, Joystick_loop, Joystick_draw) \
+    APP_ENTRY(APP_SMOKE, F("Smoke"), SmokeSensor_init, SmokeSensor_loop, SmokeSensor_draw) \
+    APP_ENTRY(APP_ULTRASONIC, F("Ultrasonic"), Ultrasonic_init, Ultrasonic_loop, Ultrasonic_draw) \
+    APP_ENTRY(APP_PHOTOSENSOR, F("Photosensor"), Photosensor_init, Photosensor_loop, Photosensor_draw)
     // ！！！在这里注册新应用 ！！！
     // 格式：APP_ENTRY(APP_你的功能名, F("显示名称"), 初始化函数, 循环函数, 绘制函数)
 

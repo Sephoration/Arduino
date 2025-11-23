@@ -78,9 +78,9 @@ void OLED_Display::showBootScreen(){
   
   clear(); 
   drawRect(0, 0, _width, _height, SSD1306_WHITE);  // 绘制边框
-  setTextSize(1); 
+  setTextSize(2); 
   setTextColor(SSD1306_WHITE);
   setCursor(25, 25); 
-  print("ToolBox");
+  print("E.T.");
   update();
 }

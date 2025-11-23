@@ -19,7 +19,7 @@ void HomePage_draw(OLED_Display& oled) {
   oled.setTextColor(SSD1306_WHITE);
   
   // 显示标题
-  oled.setCursor(20, 12);
+  oled.setCursor(22, 12);
   oled.print(F("ToolBox"));
 
   // 显示副标题

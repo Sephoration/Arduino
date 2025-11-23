@@ -4,7 +4,9 @@
 
 // 外部函数声明
 extern uint8_t ListPage_getSelected();
-extern uint8_t ListPage_getCount();
+extern uint8_t ListPage_getCurrentPage();
+extern uint8_t ListPage_getPageItemCount();
+extern uint8_t ListPage_getTotalPages();
 extern const char* ListPage_getName(uint8_t);
 extern bool ListPage_isDirty();
 extern void ListPage_clearDirty();
@@ -19,14 +21,27 @@ void ListPage_draw(OLED_Display& oled) {
   oled.setTextSize(1);
   oled.setTextColor(SSD1306_WHITE);
 
-  uint8_t totalItems = ListPage_getCount();
-  uint8_t startY = (64 - totalItems * 12) / 2;
+  uint8_t selectedIndex = ListPage_getSelected();
+  uint8_t currentPage = ListPage_getCurrentPage();
+  uint8_t totalPages = ListPage_getTotalPages();
+  uint8_t pageItemCount = ListPage_getPageItemCount();
+  
+  // 计算垂直起始位置
+  uint8_t startY = (64 - pageItemCount * 12) / 2;
 
-  for (uint8_t i = 0; i < totalItems && i < 4; ++i) {
+  // 显示页面信息
+  oled.setCursor(2, 2);
+  
+  // 使用String来构建页面信息
+  String pageInfo = String(currentPage + 1) + "/" + String(totalPages);
+  oled.print(pageInfo);
+
+  // 显示菜单项
+  for (uint8_t i = 0; i < pageItemCount; ++i) {
     int16_t y = startY + i * 12;
     
-    if (i == ListPage_getSelected()) {
-      oled.fillRect(2, y - 1, 128 - 4, 10, SSD1306_WHITE);
+    if (i == selectedIndex) {
+      oled.fillRect(2, y - 1, 124, 10, SSD1306_WHITE);
       oled.setTextColor(SSD1306_BLACK);
     } else {
       oled.setTextColor(SSD1306_WHITE);
@@ -39,6 +54,19 @@ void ListPage_draw(OLED_Display& oled) {
     oled.setCursor(x, y);
     oled.print(itemText);
   }
+  
+  // 显示操作提示
+  oled.setTextColor(SSD1306_WHITE);
+  oled.setCursor(20, 55);
+  
+  // 使用String构建提示信息
+  String hintText;
+  if (totalPages > 1) {
+    hintText = "Page " + String(currentPage + 1) + "/" + String(totalPages);
+  } else {
+    hintText = "Press BACK to switch";
+  }
+  oled.print(hintText);
   
   oled.update();
   ListPage_clearDirty();
