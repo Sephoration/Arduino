@@ -8,6 +8,7 @@ static int yValue = 0;
 static int zValue = 0;
 static bool isActive = false;
 
+
 // 摇杆传感器引脚定义
 #define JOYSTICK_X_PIN PA5    // X轴模拟输入
 #define JOYSTICK_Y_PIN PA6    // Y轴模拟输入  

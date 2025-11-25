@@ -70,6 +70,7 @@ void OLED_Display::fillScreen(uint16_t c){
   if(_initialized) _display.fillScreen(c);
 }
 
+
 // ==================== 启动画面显示 ====================
 // 显示启动画面
 void OLED_Display::showBootScreen(){
@@ -80,6 +81,6 @@ void OLED_Display::showBootScreen(){
   setTextSize(1); 
   setTextColor(SSD1306_WHITE);
   setCursor(25, 25); 
-  print("FOCUS CUBE"); 
+  print("ToolBox");
   update();
 }
