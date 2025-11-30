@@ -1,6 +1,7 @@
-// Tool_Box.ino - 优化版主程序
+// Tool_Box.ino 
 #include "OLED_Display.h"
 #include "AppType.h"
+
 
 // ==================== 硬件引脚定义 ====================
 #define BUTTON_PA0 0    // 确认按键引脚
@@ -95,3 +96,5 @@ AppInfo appRegistry[APP_COUNT] = {
 
 // 应用路由器初始化
 AppInfo* appRouter[APP_COUNT] = {nullptr};
+
+
