@@ -1,86 +1,108 @@
 // OLED_Display.cpp
 #include "OLED_Display.h"
+#include <Arduino.h>
 
 // ==================== 构造函数和初始化 ====================
-OLED_Display::OLED_Display(uint8_t w, uint8_t h, int8_t r)
-  : _display(w, h, &Wire, r), _width(w), _height(h) {}
+OLED_Display::OLED_Display()
+    : _display(OLED_WIDTH, OLED_HEIGHT, &Wire, -1) {
+    // 使用PinDefines.h中的宽度和高度
+}
 
 // 初始化OLED显示
-bool OLED_Display::begin(uint8_t addr){
-  // 尝试初始化SSD1306显示
-  if(!_display.begin(SSD1306_SWITCHCAPVCC, addr)){
-    _initialized = false; 
-    return false;
-  }
-  _initialized = true;
-  _display.clearDisplay(); 
-  _display.display();
-  return true;
+bool OLED_Display::begin() {
+    // 尝试初始化SSD1306显示
+    if(!_display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDRESS)){
+        _initialized = false; 
+        return false;
+    }
+    _initialized = true;
+    _display.clearDisplay(); 
+    _display.display();
+    return true;
 }
 
 // ==================== 基础显示控制方法 ====================
-// 清空显示缓存
-void OLED_Display::clear(){ 
-  if(_initialized) _display.clearDisplay(); 
+void OLED_Display::clear() { 
+    if(_initialized) _display.clearDisplay(); 
 }
 
-// 更新显示内容
-void OLED_Display::update(){ 
-  if(_initialized) _display.display(); 
+void OLED_Display::update() { 
+    if(_initialized) _display.display(); 
 }
 
-// 显示边框
 void OLED_Display::showBorder() {
-  if(_initialized) _display.drawRect(0, 0, _width, _height, SSD1306_WHITE);
+    if(_initialized) _display.drawRect(0, 0, OLED_WIDTH, OLED_HEIGHT, SSD1306_WHITE);
 }
+
+
 
 // ==================== 图形绘制工具方法 ====================
-// 设置文字大小
-void OLED_Display::setTextSize(uint8_t s){ 
-  if(_initialized) _display.setTextSize(s); 
+void OLED_Display::setTextSize(uint8_t size) { 
+    if(_initialized) _display.setTextSize(size); 
 }
 
-// 设置文字颜色
-void OLED_Display::setTextColor(uint16_t c){ 
-  if(_initialized) _display.setTextColor(c); 
+void OLED_Display::setTextColor(uint16_t color) { 
+    if(_initialized) _display.setTextColor(color); 
 }
 
-// 设置光标位置
-void OLED_Display::setCursor(int16_t x, int16_t y){ 
-  if(_initialized) _display.setCursor(x, y); 
+void OLED_Display::setCursor(int16_t x, int16_t y) { 
+    if(_initialized) _display.setCursor(x, y); 
 }
 
-// 打印文本内容
-void OLED_Display::print(const String &t){ 
-  if(_initialized) _display.print(t); 
+void OLED_Display::print(const String &text) { 
+    if(_initialized) _display.print(text); 
 }
 
-// 填充矩形区域
-void OLED_Display::fillRect(int16_t x,int16_t y,int16_t w,int16_t h,uint16_t c){
-  if(_initialized) _display.fillRect(x,y,w,h,c);
+void OLED_Display::fillRect(int16_t x,int16_t y,int16_t w,int16_t h,uint16_t color){
+    if(_initialized) _display.fillRect(x,y,w,h,color);
 }
 
-// 绘制矩形边框
-void OLED_Display::drawRect(int16_t x,int16_t y,int16_t w,int16_t h,uint16_t c){
-  if(_initialized) _display.drawRect(x,y,w,h,c);
+void OLED_Display::drawRect(int16_t x,int16_t y,int16_t w,int16_t h,uint16_t color){
+    if(_initialized) _display.drawRect(x,y,w,h,color);
 }
 
-// 填充整个屏幕
-void OLED_Display::fillScreen(uint16_t c){
-  if(_initialized) _display.fillScreen(c);
+void OLED_Display::fillScreen(uint16_t color){
+    if(_initialized) _display.fillScreen(color);
 }
+
+// ==================== 新增：居中文本显示 ====================
+void OLED_Display::printCentered(int16_t y, const String &text, uint8_t textSize) {
+    if(!_initialized) {
+        return;
+    }
+    
+    setTextSize(textSize);
+    setTextColor(SSD1306_WHITE);
+    
+    // 计算文本宽度（近似值：每个字符6像素 * 文字大小 * 字符数）
+    uint16_t textWidth = text.length() * 6 * textSize;
+    int16_t x = (OLED_WIDTH - textWidth) / 2;
+    
+    setCursor(x, y);
+    print(text);
+}
+
+
+
 
 
 // ==================== 启动画面显示 ====================
-// 显示启动画面
 void OLED_Display::showBootScreen(){
-  if(!_initialized) return;
-  
-  clear(); 
-  drawRect(0, 0, _width, _height, SSD1306_WHITE);  // 绘制边框
-  setTextSize(1); 
-  setTextColor(SSD1306_WHITE);
-  setCursor(25, 25); 
-  print("ToolBox");
-  update();
+    if(!_initialized) {
+        return;
+    }
+    
+    clear(); 
+    showBorder();
+    
+    setTextSize(2);
+    setTextColor(SSD1306_WHITE);
+
+    uint16_t textWidth = 3 * 6 * 2; // 3字符 * 6像素 * 2倍大小
+    int16_t x = (OLED_WIDTH - textWidth) / 2;
+    
+    setCursor(x, 40);
+    print("E.T.");   //作者：E.T.
+
+    update();
 }

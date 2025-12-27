@@ -13,7 +13,7 @@ enum AppID : uint8_t {
     APP_HOME = 0,       // 主页应用
     APP_LIST,           // 列表页面
     // ！！！在这里添加新应用ID ！！！
-    // APP_POMODORO,    // 示例
+    APP_SELF_DISCIPLINE, // 自律立方应用
     APP_COUNT           // 应用总数（自动计算，不要修改）
 };
 
@@ -31,6 +31,11 @@ void ListPage_init();
 void ListPage_loop(bool ok, bool back);
 void ListPage_draw(OLED_Display& oled);
 
+// 自律立方应用函数
+void SelfDiscipline_init();
+void SelfDiscipline_loop(bool ok, bool back);
+void SelfDiscipline_draw(OLED_Display& oled);
+
 // ！！！在这里声明新应用的函数 ！！！
 // 格式：
 // void YourApp_init();
@@ -43,8 +48,7 @@ void ListPage_draw(OLED_Display& oled);
 #define APP_REGISTRY \
     APP_ENTRY(APP_HOME, F("Home"), HomePage_init, HomePage_loop, HomePage_draw) \
     APP_ENTRY(APP_LIST, F("List"), ListPage_init, ListPage_loop, ListPage_draw) \
-    // ！！！在这里注册新应用 ！！！
-    // 格式：APP_ENTRY(APP_你的功能名, F("显示名称"), 初始化函数, 循环函数, 绘制函数)
+    APP_ENTRY(APP_SELF_DISCIPLINE, F("SelfCube"), SelfDiscipline_init, SelfDiscipline_loop, SelfDiscipline_draw)
 
 // ============================================================================
 // 核心框架 - 以下代码不需要修改

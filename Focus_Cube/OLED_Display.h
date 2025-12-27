@@ -1,19 +1,23 @@
-// OLED_Display.h
+// OLED_Display.h - OLED显示屏控制类
+// 封装SSD1306 OLED显示屏的初始化、控制和绘制功能
+// 提供简洁的API接口，方便上层应用使用
+
 #ifndef OLED_DISPLAY_H
 #define OLED_DISPLAY_H
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include "PinDefines.h"
 
-// OLED显示控制类 - 封装SSD1306显示操作
+// OLED显示控制类
 class OLED_Display {
-  public:
-    // 构造函数
-    OLED_Display(uint8_t width = 128, uint8_t height = 64, int8_t resetPin = -1);
+public:
+    // 构造函数 - 使用PinDefines中的参数
+    OLED_Display();
     
     // 初始化显示设备
-    bool begin(uint8_t i2cAddress = 0x3C);
+    bool begin();
     
     // 基础显示控制方法
     void clear();                   // 清空显示缓存
@@ -30,14 +34,15 @@ class OLED_Display {
     void drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color); // 绘制矩形边框
     void fillScreen(uint16_t color);    // 填充整个屏幕
     
+    // 新增：居中文本显示（方便界面布局）
+    void printCentered(int16_t y, const String &text, uint8_t textSize = 1);
+    
     // 获取初始化状态
     bool isInitialized() { return _initialized; }
     
-  private:
+private:
     Adafruit_SSD1306 _display;      // SSD1306显示对象
     bool _initialized = false;      // 初始化标志
-    uint8_t _width;                 // 屏幕宽度
-    uint8_t _height;                // 屏幕高度
 };
 
 #endif
