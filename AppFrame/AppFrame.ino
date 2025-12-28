@@ -1,6 +1,7 @@
-// Tool_Box.ino - 优化版主程序
-#include "OLED_Display.h"
-#include "AppType.h"
+// 主程序
+
+#include "OLED_Display.h"  //显示驱动层
+#include "AppType.h"       //应用类型定义
 
 // ==================== 硬件引脚定义 ====================
 #define BUTTON_PA0 0    // 确认按键引脚
@@ -11,6 +12,7 @@ AppID currentApp = APP_HOME;
 OLED_Display oled;
 
 // 按键状态管理
+
 struct {
     bool lastPA0 = HIGH;
     bool lastPA3 = HIGH;
