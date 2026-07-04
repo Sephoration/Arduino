@@ -99,7 +99,7 @@ static void Brick_ReflectOffRect(float rx, float ry, float rw, float rh) {
 void Brick_Update(void) {
     if (gameOver || win) return;
 
-    InputDir_t dir = Input_GetDirection();
+    InputDir_t dir = Input_GetLastDirection();
     bool ok = Input_GetOkPressed();
 
     if (ok) {

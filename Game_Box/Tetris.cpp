@@ -134,7 +134,8 @@ void Tetris_Reset(void) {
 void Tetris_Update(void) {
     if (gameOver) return;
 
-    InputDir_t dir = Input_GetDirection();
+    InputDir_t dirEvt = Input_GetDirection();       // 事件方向（旋转用）
+    InputDir_t dirHeld = Input_GetLastDirection();   // 按住方向（移动/下落用）
     bool ok = Input_GetOkPressed();
 
     if (ok) {
@@ -146,13 +147,13 @@ void Tetris_Update(void) {
 
     // 左右移动（支持长按，但限制速率）
     static unsigned long lastMove = 0;
-    if (dir == DIR_LEFT && millis() - lastMove > 100) {
+    if (dirHeld == DIR_LEFT && millis() - lastMove > 100) {
         if (!Tetris_CheckCollision(curPiece, curRot, curX - 1, curY)) {
             curX--;
             lastMove = millis();
             Sound_PlayMove();
         }
-    } else if (dir == DIR_RIGHT && millis() - lastMove > 100) {
+    } else if (dirHeld == DIR_RIGHT && millis() - lastMove > 100) {
         if (!Tetris_CheckCollision(curPiece, curRot, curX + 1, curY)) {
             curX++;
             lastMove = millis();
@@ -160,9 +161,9 @@ void Tetris_Update(void) {
         }
     }
 
-    // 旋转（上键）
+    // 旋转（上键，边沿触发）
     static bool rotTriggered = false;
-    if (dir == DIR_UP) {
+    if (dirEvt == DIR_UP) {
         if (!rotTriggered) {
             rotTriggered = true;
             uint8_t newRot = (curRot + 1) & 3;
@@ -181,8 +182,8 @@ void Tetris_Update(void) {
         rotTriggered = false;
     }
 
-    // 快速下落（下键）
-    dropFast = (dir == DIR_DOWN);
+    // 快速下落（下键，按住时加速）
+    dropFast = (dirHeld == DIR_DOWN);
 
     unsigned long now = millis();
     unsigned long interval = dropFast ? TETRIS_TICK_DROP : tickInterval;

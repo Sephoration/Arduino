@@ -14,7 +14,7 @@
 static int8_t snakeX[SNAKE_MAX_LEN];
 static int8_t snakeY[SNAKE_MAX_LEN];
 static int16_t snakeLen;
-static int8_t headIdx;
+static int16_t headIdx;
 static int8_t dirX;
 static int8_t dirY;
 static int8_t nextDirX;

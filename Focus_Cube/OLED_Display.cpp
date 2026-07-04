@@ -100,9 +100,9 @@ void OLED_Display::showBootScreen(){
 
     uint16_t textWidth = 3 * 6 * 2; // 3字符 * 6像素 * 2倍大小
     int16_t x = (OLED_WIDTH - textWidth) / 2;
-    
+
     setCursor(x, 40);
-    print("E.T.");   //作者：E.T.
+    print("E.T.");
 
     update();
 }

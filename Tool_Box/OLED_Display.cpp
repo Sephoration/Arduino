@@ -80,7 +80,7 @@ void OLED_Display::showBootScreen(){
   drawRect(0, 0, _width, _height, SSD1306_WHITE);  // 绘制边框
   setTextSize(2); 
   setTextColor(SSD1306_WHITE);
-  setCursor(25, 25); 
+  setCursor(25, 25);
   print("E.T.");
   update();
 }
