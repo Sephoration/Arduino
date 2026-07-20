@@ -81,6 +81,6 @@ void OLED_Display::showBootScreen(){
   setTextSize(2); 
   setTextColor(SSD1306_WHITE);
   setCursor(25, 25);
-  print("E.T.");
+  print("ToolBox");
   update();
 }

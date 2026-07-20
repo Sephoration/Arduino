@@ -102,7 +102,7 @@ void OLED_Display::showBootScreen(){
     int16_t x = (OLED_WIDTH - textWidth) / 2;
 
     setCursor(x, 40);
-    print("E.T.");
+    print("Focus");
 
     update();
 }
